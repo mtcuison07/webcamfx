@@ -39,7 +39,7 @@ public class createQRHealthChecklist {
         String lsSQL = "SELECT sBranchCd, sBranchNm" +
                         " FROM Branch" +
                         " WHERE cRecdStat = '1'" + 
-                            " AND sBranchCd IN ('N001', 'V001', 'A001', 'A002')" + 
+                            " AND sBranchCd IN ('M178')" + 
                         " ORDER BY sBranchCd";
         
         ResultSet loRS = poGRider.executeQuery(lsSQL);
