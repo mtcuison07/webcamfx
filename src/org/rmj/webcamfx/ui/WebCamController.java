@@ -242,7 +242,7 @@ public class WebCamController{
                                     poJSON.put("CODE_93", result.getText());
                                 }
                                 
-                                if (poJSON.containsKey("QR_CODE") && 
+                                if (poJSON.containsKey("QR_CODE") || 
                                     poJSON.containsKey("CODE_93")){
                                 
                                     shutdown();
