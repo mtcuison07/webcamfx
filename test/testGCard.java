@@ -2,9 +2,7 @@
 import javafx.application.Application;
 import org.json.simple.JSONObject;
 import org.rmj.appdriver.MySQLAESCrypt;
-import org.rmj.webcamfx.ui.ReadGCard;
 import org.rmj.webcamfx.ui.ReadGCardBarcode;
-import org.rmj.webcamfx.ui.Webcam;
 
 public class testGCard {
     public static void main(String [] args){

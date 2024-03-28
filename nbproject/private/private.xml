@@ -6,8 +6,13 @@
         <group name="GCard"/>
         <group name="guanzon"/>
         <group name="Utillities"/>
+        <group>
+            <file>file:/D:/Guanzon/GMC%20SEG%20Folder%20-%20Java/webcamfx/src/org/rmj/webcamfx/ui/Webcam.java</file>
+            <file>file:/D:/Guanzon/GMC%20SEG%20Folder%20-%20Java/webcamfx/src/org/rmj/webcamfx/ui/NewCard.java</file>
+            <file>file:/D:/Guanzon/GMC%20SEG%20Folder%20-%20Java/webcamfx/src/org/rmj/webcamfx/ui/ScanMe.fxml</file>
+        </group>
         <group name="GCARD">
-            <file>file:/D:/Guanzon/GMC%20SEG%20Folder%20-%20Java/webcamfx/src/org/rmj/webcamfx/ui/ReadPanalo.java</file>
+            <file>file:/D:/Guanzon/GMC%20SEG%20Folder%20-%20Java/webcamfx/test/testDecrypt.java</file>
         </group>
     </open-files>
 </project-private>

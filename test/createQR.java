@@ -6,13 +6,9 @@ public class createQR {
     public static void main(String [] args){
         String lsURL = "";
         
-        lsURL = "This is a test.";
-        QRCode.create(lsURL, "Error 1");
-        lsURL = "340299A52425D328D2E6CDBC3C0AEBCEF705FBF246D95E1895796D6629BB7E5B3AB6ECF3D5CBBB7559E945370550DEC5";
-        QRCode.create(lsURL, "Error 2");
-        lsURL = "DD886983D6B69F0A22FB16773CF37FE1AA4F0DDE5F9AE59F0325DE8606EB168153C7AE684571011F27B436235B5ED1EE";
-        QRCode.create(lsURL, "Error 3");
-        
+        lsURL = "https://www.guanzongroup.com.ph/mc-credit-application/";
+        QRCode.create(lsURL, "Credit App");
+      
         //lsValue = QRCode.read("D:\\GGC_Java_Systems\\temp\\webcam\\convention.png");
         //System.out.println(lsValue);
     }
