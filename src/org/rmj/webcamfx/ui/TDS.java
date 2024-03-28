@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.rmj.appdriver.agentfx.CommonUtils;
 
-public class NewCard extends Application {
+public class TDS extends Application {
     private static String sPin = "";
     
     public void setValue(String fsValue){
@@ -32,7 +32,7 @@ public class NewCard extends Application {
             System.exit(1);
         }
         
-        sPin = Webcam.showQR("New G-Card", sPin, "new");
+        sPin = Webcam.showQR("G-Card Points Update", sPin, "TDS");
         System.exit(0);
     }
 }

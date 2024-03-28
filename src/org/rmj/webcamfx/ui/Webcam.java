@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.simple.JSONObject;
 import org.rmj.appdriver.MySQLAESCrypt;
-import org.rmj.appdriver.agentfx.CommonUtils;
 import org.rmj.webcamfx.lib.QRCode;
 
 public class Webcam {
@@ -94,7 +93,16 @@ public class Webcam {
         return "";
     }
     
-    public static String showQR(String fsQRValue, String fsValue){
+    public static void showClientQR(String fsFormTitle, String fsDirectory, String fsValue){
+        ScanQR instance = new ScanQR();
+        instance.setFormTitle(fsFormTitle);
+        instance.setDirectory(fsDirectory);
+        instance.setFileName(fsValue);
+        
+        showModal(instance, pxeModuleName);
+    }
+    
+    public static String showQR(String fsFormTitle, String fsQRValue, String fsValue){
         QRCode oQRCode = new QRCode();
         
         fsQRValue = MySQLAESCrypt.Encrypt(fsQRValue, "20190625");
@@ -103,7 +111,7 @@ public class Webcam {
             
             ScanMe instance = new ScanMe();
         
-            instance.setFormTitle("NEW G-CARD CREATED");
+            instance.setFormTitle(fsFormTitle);
             instance.setFileName(lsFileName);
             instance.setPIN(fsValue);
             showModal(instance, pxeModuleName);
@@ -117,13 +125,23 @@ public class Webcam {
         
         return "";
     }
-    
+
     public static void displayNewGCard(String fsPin){
         NewCard instance = new NewCard();
         instance.setValue(fsPin);
         
         Application.launch(instance.getClass());
     }
+    
+    public static void displayClientInfo(String fsDirectory, String fsValue){
+        Client instance = new Client();
+        instance.setFormTitle("Scan Client Info");
+        instance.setDirectory(fsDirectory);
+        instance.setQRValue(fsValue);
+        
+        Application.launch(instance.getClass());
+    }
+            
     
     private static void showModal(Application foObj, String fsModuleName){
         try {
