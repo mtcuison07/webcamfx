@@ -6,6 +6,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
@@ -14,12 +15,20 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import javax.imageio.ImageIO;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 public class QRCode {
     private static final String pxeModuleName = "QRCode";
@@ -45,6 +54,63 @@ public class QRCode {
         }
         
         return true;
+    }
+    
+    public static boolean create(String fsQRCdData, String fsTitle, String fsFileName, int fnSize){
+        try {
+            // Generate QR code
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(fsQRCdData, BarcodeFormat.QR_CODE, fnSize, fnSize);
+            BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+            // Create the final image with space for the text below the QR code
+            int textHeight = 150;
+            BufferedImage finalImage = new BufferedImage(fnSize, fnSize + textHeight, BufferedImage.TYPE_INT_RGB);
+
+            // Draw the QR code on the final image
+            Graphics2D g = finalImage.createGraphics();
+            g.setColor(Color.WHITE); // Set background to white
+            g.fillRect(0, 0, fnSize, fnSize + textHeight); // Fill the entire image
+            g.drawImage(qrImage, 0, 0, null);
+
+            // Draw the text below the QR code
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial", Font.PLAIN, 40));
+            FontMetrics fontMetrics = g.getFontMetrics();
+            int textWidth = fontMetrics.stringWidth(fsTitle);
+            int x = (fnSize - textWidth) / 2;
+            int y = fnSize + ((textHeight - fontMetrics.getHeight()) / 2) + fontMetrics.getAscent();
+            g.drawString(fsTitle, x, y);
+            g.dispose();
+
+            // Save the final image to file
+            ImageIO.write(finalImage, "png", new File(pxeDefaultDIR + fsFileName + ".png"));
+
+            System.out.println("QR code with text generated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public static String encrypt(String data, String key, String iv) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+        IvParameterSpec ivSpec = new IvParameterSpec(iv.getBytes("UTF-8"));
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+        byte[] encrypted = cipher.doFinal(data.getBytes("UTF-8"));
+        return Base64.getEncoder().encodeToString(encrypted);   
+    }
+    
+    public static String decrypt(String encryptedData, String key, String iv) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+        IvParameterSpec ivSpec = new IvParameterSpec(iv.getBytes("UTF-8"));
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+        byte[] decodedEncryptedData = Base64.getDecoder().decode(encryptedData);
+        byte[] original = cipher.doFinal(decodedEncryptedData);
+        return new String(original, "UTF-8");
     }
     
     public static String read(String fsFilePath){

@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.activation.MimetypesFileTypeMap;
+import org.rmj.appdriver.agentfx.CommonUtils;
 import org.rmj.appdriver.agentfx.ShowMessageFX;
 import org.rmj.webcamfx.lib.Utils;
 
@@ -53,13 +54,6 @@ public class ScanMeController implements Initializable {
             
             if(f.exists() && !f.isDirectory()) { 
                 String mimetype= new MimetypesFileTypeMap().getContentType(f);
-                //String type = mimetype.split("/")[0];
-
-                //check if file is an image
-                //if(!type.equals("image")){
-                //    ShowMessageFX.Information("The file is not an image.", "Guanzon Scan Me", "Please verify your entry.");
-                //    unloadScene();
-                //}
                 Image image = new Image("file:" + psFileName);
 
                 //load image
@@ -68,19 +62,19 @@ public class ScanMeController implements Initializable {
                 if (psPINCode.isEmpty() || psPINCode.equals(""))
                     txtPIN.setText("");
                 else {
-                    txtPIN.setText("SCAN THE QR CODE");
+                    txtPIN.setText(psPINCode);
                     txtPIN.setDisable(true);
                     cmdCancel.setDisable(true);
                 }
             } else {
                 System.err.println("Please verify the file directory given.");
-                ShowMessageFX.Information("Please verify the file directory given.", "Guanzon Scan Me", "Unable to load image.");
+                ShowMessageFX.Information(getStage(),"Please verify the file directory given.", "Guanzon Scan Me", "Unable to load image.");
                 unloadScene();
             }
         } catch (Exception e) {
             e.printStackTrace();
             Logger.getLogger(ScanMeController.class.getName()).log(Level.SEVERE, null, e);
-            ShowMessageFX.Error(e.getMessage(), "Guanzon Scan Me", "Exception");
+            ShowMessageFX.Error(getStage(),e.getMessage(), "Guanzon Scan Me", "Exception");
             unloadScene();
         }
     }    
@@ -90,7 +84,7 @@ public class ScanMeController implements Initializable {
         psPINCode = txtPIN.getText();
         
         if (psPINCode.isEmpty()) {
-            ShowMessageFX.Information("OTP must not be empty.", "Guanzon Scan Me", "Invalid OTP");
+            ShowMessageFX.Information(getStage(), "OTP must not be empty.", "Guanzon Scan Me", "Invalid OTP");
             return;
         }
         
@@ -106,6 +100,10 @@ public class ScanMeController implements Initializable {
     private void unloadScene(){
         Stage stage = (Stage) acButtons.getScene().getWindow();
         stage.close();
+    }
+    
+    private Stage getStage(){
+        return (Stage) acButtons.getScene().getWindow();
     }
     
     private void updateImageView(ImageView view, Image image){

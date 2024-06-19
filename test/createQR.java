@@ -6,8 +6,8 @@ public class createQR {
     public static void main(String [] args){
         String lsURL = "";
         
-        lsURL = "https://www.guanzongroup.com.ph/mc-credit-application/";
-        QRCode.create(lsURL, "Credit App");
+        lsURL = "https://restgk.guanzongroup.com.ph/apk/gConnect.apk";
+        QRCode.create(lsURL, "Guanzon Connect");
       
         //lsValue = QRCode.read("D:\\GGC_Java_Systems\\temp\\webcam\\convention.png");
         //System.out.println(lsValue);

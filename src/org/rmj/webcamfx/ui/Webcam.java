@@ -126,6 +126,13 @@ public class Webcam {
         return "";
     }
 
+    public static void displayGCARDTDS(String fsTDSValue){
+        TDS instance = new TDS();
+        instance.setValue(fsTDSValue);
+        
+        Application.launch(instance.getClass());
+    }
+    
     public static void displayNewGCard(String fsPin){
         NewCard instance = new NewCard();
         instance.setValue(fsPin);
