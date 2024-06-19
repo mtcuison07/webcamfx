@@ -2,7 +2,6 @@ package org.rmj.webcamfx.ui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.rmj.appdriver.agentfx.CommonUtils;
 
 public class TDS extends Application {
     private static String sPin = "";
@@ -16,23 +15,21 @@ public class TDS extends Application {
     }
     
     @Override
-    public void start(Stage stage) throws Exception {    
-        //String sPin = "4150504C49434154494F4EBBBBBBBB30373731393030303335333034BBBBBBBBBBBB";
-        
+    public void start(Stage stage) throws Exception {           
         if (sPin.equals("")){
             System.err.println("UNSET parameter...");
             System.exit(1);
         }
         
-        //convert hex to str
-        sPin = CommonUtils.Win2UTF(sPin);
-        
         if (sPin.equals("")){
-            System.out.println("CARD NUMBER is emtpy...");
+            System.out.println("PAYLOAD is emtpy...");
             System.exit(1);
         }
         
-        sPin = Webcam.showQR("G-Card Points Update", sPin, "TDS");
+        String [] lasPin = sPin.split("»");
+        
+        
+        sPin = Webcam.showQR("G-Card Points Update", sPin, "OTP: " + lasPin[7]);
         System.exit(0);
     }
 }
